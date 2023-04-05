@@ -1,0 +1,39 @@
+<% if !flash[:notice].blank? %>
+	<div class = "notice">
+		<%= flash[:notice] %>
+	</div>
+<% end %>
+
+<h2 class= "ms-5 mb-4 mt-5">Categories</h2>
+<div class="row">
+	<% @categories.each do |category| %>
+		<div class=" ms-5 card " style="width: 12rem;">
+			<div class="card-body text-center mx-auto">
+		  <% if category.image.present? %>
+		  <%= link_to (image_tag category.image, :size => '136x150'), products_path(category_id: category.id) %>
+		  <% end %>
+		    <h5 class="card-title"><%= category.name %></h5>
+		  </div>
+		</div>
+	<% end %>
+</div>
+
+<h2 class= "ms-5 mb-5 mt-5">All Products</h2>
+<div class="row">
+	<% products = !!defined?(@products) ? @products : Product.all %>
+	<% products.each do |product| %>
+		<div class=" ms-5 card " style="width: 12rem;">
+			<%= link_to wishlists_path(product_id: product.id), data: { turbo_method: "post" } do %>
+				<i class="bi bi-heart text-danger" style=" position: absolute; top: -1px; right: 4px; z-index: 1; font-size:20px;"></i>
+			<% end %>
+			<div class="card-body text-center mx-auto">
+		 		<% if product.cover.present? %>
+			  <%= link_to (image_tag product.cover, :size => '136x150'), product_path(id: product.id) %>
+			  <% end %>
+		    <h5 class="card-title"><%= product.name %></h5>
+		  </div>  
+		</div>
+	<% end %>
+</div>
+
+

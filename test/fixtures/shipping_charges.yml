@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shipping_charge: 1
+  total_is_grater_than: 1
+
+two:
+  shipping_charge: 1
+  total_is_grater_than: 1
