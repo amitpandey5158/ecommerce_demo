@@ -23,9 +23,16 @@
 	<% products = !!defined?(@products) ? @products : Product.all %>
 	<% products.each do |product| %>
 		<div class=" ms-5 card " style="width: 12rem;">
-			<%= link_to wishlists_path(product_id: product.id), data: { turbo_method: "post" } do %>
+			<% wishlist = current_user.wishlist %>
+			<% if wishlist.present? && wishlist.wishlist_items.find_by(product_id: product.id).present? %>
+				<%= link_to wishlist_path(id: wishlist.id, product_id: product.id), data: {turbo_method: :delete} do %>
+					<i class="bi bi-heart-fill text-danger" style=" position: absolute; top: -1px; right: 4px; z-index: 1; font-size:20px;"></i>
+				<% end %>
+			<% else %>	
+				<%= link_to wishlists_path(product_id: product.id), data: { turbo_method: "post" } do %>
 				<i class="bi bi-heart text-danger" style=" position: absolute; top: -1px; right: 4px; z-index: 1; font-size:20px;"></i>
-			<% end %>
+				<% end %>
+			<% end %>	
 			<div class="card-body text-center mx-auto">
 		 		<% if product.cover.present? %>
 			  <%= link_to (image_tag product.cover, :size => '136x150'), product_path(id: product.id) %>

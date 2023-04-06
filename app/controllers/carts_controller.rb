@@ -23,7 +23,7 @@ class CartsController < ApplicationController
 		product_cart = @cart.product_carts.find_by(id: params[:product_cart_id])
 		product_cart.destroy
 		if @cart.product_carts.empty?
-  		redirect_to empty_cart_path
+  		redirect_to empty_cart_path(message: "Your cart is now empty.") 
 		else
   		redirect_to cart_path(@cart)
 		end		

@@ -8,16 +8,18 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <%= link_to "Home", root_path,class:"navbar-brand" %></a>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" >
             Dropdown
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu" >
+            <% if user_signed_in? && current_user.wishlist.present? %>
+              <% wishlist = current_user.wishlist %>
+              <li><a class="dropdown-item"><%= link_to "wishlist", wishlist_path(id: wishlist.id), class: "btn btn-success" %> </a></li>
+            <% else %>
+              <li><a class="dropdown-item"><%= link_to "wishlist", empty_cart_path, class: "btn btn-success " %> </a></li>
+            <% end %>  
           </ul>
-        </li>
+        </li>  
       </ul>
       <% if @categories.present?  %>
         <form class="d-flex" action=" /search " >
@@ -42,7 +44,6 @@
           <%= link_to "Cart", empty_cart_path, class: "btn btn-success" %>
         <% end %>
       </div>
-    </div>
     </div>
   </div>
 </nav>
