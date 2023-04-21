@@ -69,8 +69,8 @@
       </li>
     </ul>
 
-    <button type="button" class="btn btn-primary btn-lg btn-block">
-      Go to checkout
+    <button type="button" class="btn btn-primary ">
+      <%= link_to "Place Order", place_order_path(id: @cart.id), class: "btn btn-primary " %>
     </button>
   </div>
 </div>

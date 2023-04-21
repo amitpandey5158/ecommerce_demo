@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     registrations: 'users/registrations',
     confirmations: 'users/confirmations',
-
   }
 
   root "categories#index"
@@ -18,8 +17,14 @@ Rails.application.routes.draw do
   get 'carts', to: 'carts#add_product_carts'
   get 'update_quantity', to: 'carts#update_quantity'
   get 'empty_cart', to: 'shared#empty_cart'
+  get 'place_order', to: 'carts#place_order'
+  post 'verify_payment', to: 'carts#verify_payment'
+  get 'my_orders', to: 'carts#my_orders'
+  get 'view_order_detail', to: 'carts#view_order_detail'
   
   resources :wishlists, only: [:show, :create, :destroy] 
+
+  post 'notify_users', to: 'notify_users#notify_users'
 
   get 'search', to: "categories#search"
   get 'filter', to: "products#search"

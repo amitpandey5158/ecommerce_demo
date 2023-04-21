@@ -1,6 +1,8 @@
 ActiveAdmin.register ShippingCharge do
 
   permit_params :shipping_charge, :total_is_grater_than
+
+  remove_filter :created_at, :updated_at, :shipping_charge, :total_is_grater_than
  
   controller do
     def action_methods 
@@ -12,4 +14,5 @@ ActiveAdmin.register ShippingCharge do
       end
     end
   end
+
 end

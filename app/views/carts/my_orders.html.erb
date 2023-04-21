@@ -1,0 +1,20 @@
+<div class="row">
+	<% @orders.each do |order|  %>
+		<div class=" ms-5 card text-center " style="width: 22rem;">
+			<% product = order.product_carts.first.product %>
+			<div class= mt-4>
+				<% if product.cover.present? %>
+		    	<%= link_to (image_tag product.cover, :size => '195x160'), product_path(id: product.id) %>
+		  	<% end %>
+	  	</div>
+			<div class="card-body text-center mx-auto">
+		   	<p class="card-text">Payment Id: <%= order.razorpay_payment_id %></p>
+		    <p class="card-text">Order Id: <%= order.razorpay_order_id %></p>
+		    <p class="card-text">Payment status: <%= order.razorpay_payment_status %></p>
+		    <p class="card-text">Order status: <%= order.status %></p>
+		    <p class="card-text">Amount: <%= order.total %></p>
+		    <p class="card-text"><%= link_to "detail",view_order_detail_path(id: order.id), class: "btn btn-success" %></p>
+		  </div>
+		</div>
+	<% end %>
+</div>

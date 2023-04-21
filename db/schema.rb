@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_04_095950) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_085355) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -73,10 +73,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_095950) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.string "razorpay_order_id"
+    t.string "razorpay_payment_status"
+    t.string "razorpay_payment_id"
   end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "category_csvs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notify_users", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "user_id"
+    t.boolean "notify", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -93,6 +109,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_095950) do
     t.index ["product_id"], name: "index_product_carts_on_product_id"
   end
 
+  create_table "product_csvs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -101,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_095950) do
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hide", default: false
   end
 
   create_table "shipping_charges", force: :cascade do |t|

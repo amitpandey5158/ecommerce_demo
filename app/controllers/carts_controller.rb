@@ -1,7 +1,8 @@
 class CartsController < ApplicationController
+	skip_before_action :verify_authenticity_token, only: [:verify_payment]
+	before_action :find_cart, except: [:my_orders, :view_order_detail]
 
 	def show
-		@cart = Cart.find_by(id: params[:id])
 	end
 
 	def add_product_carts
@@ -19,7 +20,6 @@ class CartsController < ApplicationController
 	end
 	
 	def destroy
-		@cart = Cart.find_by(id: params[:id])
 		product_cart = @cart.product_carts.find_by(id: params[:product_cart_id])
 		product_cart.destroy
 		if @cart.product_carts.empty?
@@ -30,7 +30,6 @@ class CartsController < ApplicationController
 	end
 
 	def update_quantity
-		@cart = Cart.find_by(id: params[:id])
 		product = Product.find_by(id: params[:product_id])
 		product_cart = @cart.product_carts.find_by(product_id: params[:product_id])
 		if params[:new_quantity] > params[:old_quantity] && product.stock > 0
@@ -47,6 +46,47 @@ class CartsController < ApplicationController
 		redirect_to cart_path(@cart) 
 	end
 
+	def place_order
+    receipt = "Order-#{Time.now.to_i}"
+	  razorpay_order = Payment::RazorpayPayments.new.create_order(@cart.total, receipt)
+    if razorpay_order.status == 'created'
+		  @cart.update_columns(razorpay_order_id: razorpay_order.id, razorpay_payment_status: razorpay_order.status)
+		else
+			flash[:notice] = 'something went wrong'
+  	  redirect_to root_path
+  	end
+		render 'carts/payment', locals: { cart: @cart } and return
+	end
+
+	def verify_payment
+		res = { razorpay_order_id: params[:razorpay_order_id],
+		razorpay_payment_id: params[:razorpay_payment_id],
+    razorpay_signature: params[:razorpay_signature] } 
+		if Payment::RazorpayPayments.new.verify_payment(res)
+			razorpay_payment_id = params[:razorpay_payment_id]
+			para_attr = {
+    	"amount": @cart.total*100,
+    	"currency": "INR"
+			}
+			capture_status = Payment::RazorpayPayments.new.capture_payment(razorpay_payment_id, para_attr)
+			@cart.update_columns(razorpay_payment_id: params[:razorpay_order_id], razorpay_payment_status: 'captured', status: 'placed' )
+			UserMailMailer.placed_order_confirmation(current_user, @cart).deliver_now
+			flash[:notice] = "payment successfull"
+    	redirect_to root_path
+		else
+			flash[:notice] = "something went wrong"
+			redirect_to cart_path(id: @cart.id)
+		end
+	end
+
+	def my_orders
+		@orders = Cart.where.not(status: 'in_cart')
+	end
+
+	def view_order_detail
+		@view_order = Cart.find_by(id: params[:id])	
+	end
+
 	private
 
 	def update_cart_value
@@ -57,6 +97,10 @@ class CartsController < ApplicationController
 		else
 		  @cart.update(subtotal: subtotal, shipping_cost: 0, total: subtotal)
 		end
+	end
+
+	def find_cart
+		@cart = Cart.find_by(id: params[:id])
 	end
 
 end

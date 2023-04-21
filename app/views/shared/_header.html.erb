@@ -11,13 +11,14 @@
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" >
             Dropdown
           </a>
-          <ul class="dropdown-menu" >
+          <ul class="dropdown-menu text-center" >
             <% if user_signed_in? && current_user.wishlist.present? %>
               <% wishlist = current_user.wishlist %>
-              <li><a class="dropdown-item"><%= link_to "wishlist", wishlist_path(id: wishlist.id), class: "btn btn-success" %> </a></li>
+              <li><a class="dropdown-item "><%= link_to "wishlist", wishlist_path(id: wishlist.id), class: "btn btn-success " %> </a></li>
             <% else %>
-              <li><a class="dropdown-item"><%= link_to "wishlist", empty_cart_path, class: "btn btn-success " %> </a></li>
+              <li><a class="dropdown-item"><%= link_to "wishlist", empty_cart_path, class: "text-dark font-weight-bold" %> </a></li>
             <% end %>  
+            <li><a class="dropdown-item"><%= link_to "My Orders",  my_orders_path, class: "text-dark font-weight-bold" %> </a></li>
           </ul>
         </li>  
       </ul>
@@ -37,11 +38,11 @@
         <% end %>
       </div>
       <div class="ms-2">
-        <% if user_signed_in? && current_user.carts.present? %>
+        <% if user_signed_in? && current_user.carts.exists?(status: 'in_cart') %>
           <% cart = current_user.carts.find_by(status: 'in_cart') %>
-          <%= link_to "Cart", cart_path(id: cart.id), class: "btn btn-success" %>  
+          <%= link_to " Cart ", cart_path(id: cart.id), class: "bi bi-cart btn btn-success" %>  
         <% else %>
-          <%= link_to "Cart", empty_cart_path, class: "btn btn-success" %>
+          <%= link_to " Cart ", empty_cart_path, class: "bi bi-cart btn btn-success" %>
         <% end %>
       </div>
     </div>

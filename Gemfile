@@ -75,3 +75,5 @@ end
 gem 'devise'
 gem 'cssbundling-rails'
 gem 'activeadmin'
+gem 'razorpay'
+ 

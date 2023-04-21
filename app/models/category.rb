@@ -1,5 +1,10 @@
 class Category < ApplicationRecord
-	validates :name, :image, presence: true
-	has_many :products
+
+	validates :image, presence: true
+	validates :name, presence: true, uniqueness: true
+
+	has_many :products, dependent: :destroy
+
 	has_one_attached :image
+	
 end
