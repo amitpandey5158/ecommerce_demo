@@ -59,7 +59,7 @@ ActiveAdmin.register Product do
     f.semantic_errors
     f.inputs
     f.inputs do
-      f.input :cover, as: :file, hint: f.object.cover.attached? ? image_tag(f.object.cover) : ''
+      f.input :cover, as: :file
     end
     f.inputs do
       f.input :images, as: :file,  input_html: {multiple: true }
@@ -87,6 +87,16 @@ ActiveAdmin.register Product do
         end   
       end
     end
+  end
+
+  action_item :download_csv, only: :index do
+    link_to 'Download Sample CSV', download_csv_admin_products_path
+  end
+
+  collection_action :download_csv, method: :get do
+    csv_data = "category,name,description,stock,price,cover,images\nabcd,shirt,good shirt,33,345,/home/rails/Downloads/shirt2.jpeg,/home/rails/Downloads/shirt2.jpeg /home/rails/Downloads/shirt2.jpeg"
+
+    send_data csv_data, filename: 'product_sample.csv'
   end
  
 end

@@ -9,9 +9,9 @@ class Cart < ApplicationRecord
 	accepts_nested_attributes_for :product_carts
 
 	after_update :send_delivered_or_cancelled_mail, if: :saved_change_to_status?
+	
 
 	private
-
 
 	def send_delivered_or_cancelled_mail
 		if self.status == "delivered"
@@ -22,7 +22,3 @@ class Cart < ApplicationRecord
 	end
 		
 end
-
-
-
-#cart.status == "delivered" || cart.status == "cancelled" ? cart.send_delivered_or_cancelled_mail : nil }

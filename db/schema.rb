@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_20_085355) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_24_095506) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -125,6 +125,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_085355) do
     t.boolean "hide", default: false
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.integer "contact_no"
+    t.text "address"
+    t.string "state"
+    t.string "city"
+    t.integer "user_id"
+    t.integer "pincode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "shipping_charges", force: :cascade do |t|
     t.integer "shipping_charge"
     t.integer "total_is_grater_than"
@@ -149,6 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_20_085355) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "blocked", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

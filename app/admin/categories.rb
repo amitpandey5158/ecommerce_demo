@@ -49,4 +49,13 @@ ActiveAdmin.register Category do
     end
   end
 
+  action_item :download_csv, only: :index do
+    link_to 'Download Sample CSV', download_csv_admin_categories_path
+  end
+
+  collection_action :download_csv, method: :get do
+    csv_data = "name,image\namit,/home/rails/Downloads/shirt2.jpeg\naabbcc,/home/rails/Downloads/shirt2.jpeg"
+    send_data csv_data, filename: 'category_sample.csv'
+  end
+
 end

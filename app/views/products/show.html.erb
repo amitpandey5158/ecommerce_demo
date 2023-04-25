@@ -1,13 +1,15 @@
-<div class="card mx-auto text-center" style="width: 40rem; height: 40rem;">
+<div class="card mx-auto text-center" style="width: 40rem; height: 45rem;">
 	<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 	  <div class="carousel-inner">
-	    <% if @product.images.present? %>
-	      <%  @product.images.each_with_index do |image, index| %>
-		      <div class="carousel-item <%= 'active' if index == 0 %>">
-						<%= image_tag image, :size => '620x400' %>
-					</div>	
+	  	<div class="mt-5">
+		    <% if @product.images.present? %>
+		      <%  @product.images.each_with_index do |image, index| %>
+			      <div class="carousel-item <%= 'active' if index == 0 %>">
+							<%= image_tag image, :size => '620x400' %>
+						</div>	
+					<% end %>
 				<% end %>
-			<% end %>
+			</div>
 	  </div>
 	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
 	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -31,7 +33,7 @@
 	<div class="card-body">
 		<h5 class="card-title"><%= @product.name %></h5>
 		<p class="card-text"><%= @product.description %></p>
-		<p class="card-text"><%= @product.price %></p>
+		<p class="card-text"><%= @product.price %> INR</p>
 		<% cart = current_user.carts.find_by(status: 'in_cart') %>
     <% if cart.present? && cart.product_carts.find_by(product_id: @product.id).present?  %>
     	<%= link_to "Go to Cart", cart_path(id: cart.id) ,class: "btn btn-success" %>

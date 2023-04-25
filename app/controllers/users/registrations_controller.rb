@@ -4,6 +4,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
+  def create
+    super do |resource|
+      redirect_to profiles_path  and return
+    end
+  end
+
   # GET /resource/sign_up
   # def new
   #   super

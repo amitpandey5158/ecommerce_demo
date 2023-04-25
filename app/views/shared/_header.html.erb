@@ -12,9 +12,12 @@
             Dropdown
           </a>
           <ul class="dropdown-menu text-center" >
+            <% if user_signed_in? %>
+              <li><a class="dropdown-item"><%= link_to "Profile",  profile_path(id: current_user.profile.id), class: "text-dark font-weight-bold" %> </a></li> 
+            <% end %>  
             <% if user_signed_in? && current_user.wishlist.present? %>
               <% wishlist = current_user.wishlist %>
-              <li><a class="dropdown-item "><%= link_to "wishlist", wishlist_path(id: wishlist.id), class: "btn btn-success " %> </a></li>
+              <li><a class="dropdown-item "><%= link_to "wishlist", wishlist_path(id: wishlist.id), class: "text-dark font-weight-bold" %> </a></li>
             <% else %>
               <li><a class="dropdown-item"><%= link_to "wishlist", empty_cart_path, class: "text-dark font-weight-bold" %> </a></li>
             <% end %>  

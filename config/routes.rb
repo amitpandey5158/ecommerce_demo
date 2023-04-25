@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   
   resources :wishlists, only: [:show, :create, :destroy] 
 
+  resources :profiles, only: [:show, :index]
+  post 'update_profile', to: 'profiles#update_profile'
+
   post 'notify_users', to: 'notify_users#notify_users'
 
   get 'search', to: "categories#search"

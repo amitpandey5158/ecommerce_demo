@@ -1,1 +1,13 @@
 token_github: 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 
+
+
+
+ hint: f.object.cover.attached? ? image_tag(f.object.cover) : ''
+
+
+
+
+
+    csv_data = "Name,Email\nJohn Doe,johndoe@example.com\nJane Smith,janesmith@example.com
+    send_data csv_data, filename: 'sample.csv'
+

@@ -16,7 +16,7 @@
 			  	<%= link_to (image_tag product.cover, :size => '195x160'), product_path(id: product.id) %>
 			  <% end %>
 		    <h5 class="card-title"><%= product.name %></h5>
-		    <p class="card-text"><%= product.price %></p>
+		    <p class="card-text"><%= product.price %> INR</p>
 		    <% cart = current_user.carts.find_by(status: 'in_cart') %>
 		    <% if cart.present? && cart.product_carts.find_by(product_id: product.id).present? %>
 		    	<%= link_to "Go to Cart", cart_path(id: cart.id) ,class: "btn btn-success" %>
