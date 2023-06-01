@@ -40,6 +40,7 @@ ActiveAdmin.register Cart do
             pc.input 'product name', input_html: { value: pc.object.product&.name, readonly: true }
             pc.input :quantity, input_html: { readonly: true }
             pc.input :unit_price, input_html: { readonly: true }
+            pc.input :status
           end
         end
       end    
@@ -71,6 +72,9 @@ ActiveAdmin.register Cart do
           column "Unit Price" do |pc|
             pc.unit_price
           end
+          column "Status" do |pc|
+            pc.status
+          end
           column "Cover image" do |pc|
             image_tag(pc.product.cover, :size => '80x80')
           end
@@ -79,19 +83,4 @@ ActiveAdmin.register Cart do
     end  
   end
 
-
-
-  controller do 
-    def index
-      super do 
-        if params[:id]
-          user = User.find_by(id: params[:id])
-          @carts = user.carts.where.not(status: "in_cart")
-        end
-      end
-    end
-  end 
-
-
- 
 end

@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
 
-	validates :description, :stock, :price, :cover, :images, presence: true
-	validates :name, uniqueness: { case_sensitive: false }
+	#validates :description, :stock, :price, :cover, :images, presence: true
+	#validates :name, uniqueness: { case_sensitive: false }
 
 	default_scope {where(hide: false)}
 
@@ -14,6 +14,8 @@ class Product < ApplicationRecord
 	has_many :wishlist_items, dependent: :destroy 
 	has_many :wishlists, through: :wishlist_items
 	has_many :notify_users
+
+	belongs_to :admin_user
 
 	after_update :notify_user_after_stock_update, if: :saved_change_to_stock?
 

@@ -1,13 +1,29 @@
-token_github: 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 
+
+github updated toke  --  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
+
+amit@gmail.com 123456
+aa@gmail.com  12345678
+aaa@gmail.com  12345678
+abcde@gmail.com 12345678
+amitp@gmail.com 12345678
+demo@gmail.com 12345678
+dummy@gmail.com 12345678
+abc@gmail.com 12345678
 
 
+1. Find all the orders lies between id 1 to 10.
+2. Find count of placed orders.
+3. Find all the users whore orders are delivered.
+4. Find all the users whose orders are present.
+5. Find all users whose placed order total is greater than 200.
+6. Find users who have product with id = 2 present in their cart.
+7. Find the users having no associated orders present.
 
- hint: f.object.cover.attached? ? image_tag(f.object.cover) : ''
 
-
-
-
-
-    csv_data = "Name,Email\nJohn Doe,johndoe@example.com\nJane Smith,janesmith@example.com
-    send_data csv_data, filename: 'sample.csv'
-
+1. orders = Cart.where(id: 1..10)
+2. Cart.where(status: "placed").count
+3. users = User.joins(:carts).where(carts: {status:"delivered"})
+4. user_order = User.joins(:carts)
+5. User.joins(:carts).where(carts: {status: "placed"}).where("carts.total > ?", 200)
+6. 
+7.User.includes(:carts).where(carts: {id: nil})

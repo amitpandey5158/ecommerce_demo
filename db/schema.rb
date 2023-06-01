@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_24_095506) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_30_125029) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_095506) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
@@ -105,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_095506) do
     t.integer "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["cart_id"], name: "index_product_carts_on_cart_id"
     t.index ["product_id"], name: "index_product_carts_on_product_id"
   end
@@ -123,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_095506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "hide", default: false
+    t.integer "admin_user_id"
   end
 
   create_table "profiles", force: :cascade do |t|

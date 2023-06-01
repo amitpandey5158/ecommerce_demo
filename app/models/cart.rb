@@ -9,7 +9,6 @@ class Cart < ApplicationRecord
 	accepts_nested_attributes_for :product_carts
 
 	after_update :send_delivered_or_cancelled_mail, if: :saved_change_to_status?
-	
 
 	private
 

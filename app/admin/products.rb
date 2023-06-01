@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :name, :description, :stock, :price, :category_id, :hide, :cover, images: []
+  permit_params :name, :description, :stock, :price, :admin_user_id, :category_id, :hide, :cover, images: []
 
   remove_filter :created_at, :updated_at, :notify_users, :cover_attachment, :cover_blob, :images_attachments, :images_blobs, :wishlist_items, :carts, :product_carts, :wishlists
 
@@ -57,7 +57,15 @@ ActiveAdmin.register Product do
 
   form do |f|
     f.semantic_errors
-    f.inputs
+    f.inputs do 
+      f.input :category
+      f.input :name
+      f.input :description
+      f.input :stock
+      f.input :price
+      f.input :hide
+      f.input :admin_user_id, input_html: { value: current_admin_user.id, readonly: true  }
+    end
     f.inputs do
       f.input :cover, as: :file
     end
@@ -98,5 +106,19 @@ ActiveAdmin.register Product do
 
     send_data csv_data, filename: 'product_sample.csv'
   end
- 
+  
+  controller do 
+    def index
+      super do
+        if current_admin_user.role == 'admin'
+          @products = Product.all
+          @products = collection.page(params[:page]).per(10)
+        elsif current_admin_user.role == 'vendor'
+          @products = Product.where(admin_user_id: current_admin_user.id)
+          @products = collection.page(params[:page]).per(10)
+        end
+      end
+    end
+  end
+
 end
